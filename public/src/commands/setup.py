@@ -87,4 +87,4 @@ def cli(server, client_certificate: click.Path, client_secret_key: click.Path):
         koter = Koter(server=server, setup=koter_setup, client_certificate=client_certificate, client_secret_key=client_secret_key)
         koter.report()
         click.echo(click.style(i18n.t('koter.setup.messages.downloading_sdk'), bold=True, fg="yellow"))
-        Koter.download_sdk()
+        # Koter.download_sdk()

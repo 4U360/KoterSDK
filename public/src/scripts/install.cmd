@@ -1,3 +1,3 @@
-curl https://github.com/4U360/KoterSDK/releases/download/test-release/installer.zip -O koter-sdk.zip
-tar -xf koter-sdk.zip
+git clone git@github.com:4U360/KoterSDK.git .
 pip install -r requirements.txt
+python public/src/installer.py

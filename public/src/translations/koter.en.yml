@@ -1,0 +1,34 @@
+en:
+  main:
+    help: "Toolkit for installing the Koter SDK.
+    Tool used to facilitate the integration between Koter and any database without breaking compliance rules"
+
+  setup:
+    option:
+      server:
+        help: "URL of the Koter server that will perform the synchronization"
+      client_certificate:
+        help: "Path to client certificate"
+      client_secret_key:
+        help: "Path to client secret key"
+
+    confirm:
+      share_info: "In order for us to analyze and correct possible problems while using the SDK, we ask you to share information related to the machine being used, such as:
+      Hardware and network information.
+      In addition to information pertinent to the execution of the SDK.
+      No sensitive or contact-related data will be shared in this process."
+
+    prompt:
+      server_port: "Which port should the SDK use? 
+      (inbound and outbound)"
+      unique_integration_id: "Enter your unique integration code"
+      secret_key: "Enter your secret key"
+      issuer: "Report the SDK issuer"
+      algorithm: "Please select the algorithm to be used for communication"
+
+    messages:
+      open_port: "Success, port %s is open"
+      closed_port: "Port %s is not open, you may have problems connecting to the platform"
+      collecting_machine_data: "We are collecting data about your device, please wait"
+      downloading_sdk: "We are downloading the SDK, please wait"
+

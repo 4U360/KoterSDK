@@ -1,0 +1,33 @@
+pt:
+  main:
+    help: "Pacote de ferramentas para instalação do Koter SDK.
+    Ferramenta utilizada para facilitar a integração entre o Koter e qualquer banco de dados sem quebrar regras de compliance"
+
+  setup:
+    option:
+      server:
+        help: "URL do servidor Koter que realizará a sincronização"
+      client_certificate:
+        help: "Caminho para o certificado do cliente"
+      client_secret_key:
+        help: "Caminho para a chave secreta do cliente"
+
+    confirm:
+      share_info: "Para podermos analisar e corrigir possíveis problemas durante o uso da SDK, solicitamos o compartilhamento de informações relacionadas a maquina que está sendo utilizada, tais como:
+      Informações de Hardware e rede.
+      Além de informações pertinentes a execução da SDK.
+      Nenhum dado sensível ou relacionado aos seus contatos será compartilhado neste processo."
+
+    prompt:
+      server_port: "Qual porta a SDK deve usar?
+      (inbound e outbound)"
+      unique_integration_id: "Informe seu código único de integração"
+      secret_key: "Informe sua chave secreta"
+      issuer: "Informe o issuer da SDK"
+      algorithm: "Por favor selecione o algoritmo a ser utilizado para comunicação"
+
+    messages:
+      open_port: "Sucesso, a porta %s está aberta"
+      closed_port: "A porta %s não está aberta, você poderá ter problemas de conexão com a plataforma"
+      collecting_machine_data: "Estamos coletando dados sobre o seu dispositivo, por favor aguarde"
+      downloading_sdk: "Estamos fazendo download da SDK, por favor aguarde"

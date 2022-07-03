@@ -1,0 +1,9 @@
+algorithm: HS512
+audience: koter.com.br
+can_share: false
+integration_id: 86f74d72-b50f-4f0c-92ea-aefcd50e5d96
+issuer: 4u360.com.br
+port: 8000
+secret_key: 6aLwYDdymotQrLQ74h6a5MvTGpLNXxamWUTmD3Ek52734XAPD4XkLisFBKVudpky3nvmjXu5iqhRFMt3htRYwPTHqjyAwrKM4qQ6GfyX5RXCqPhA5mR6T259
+server: http://127.0.0.1:8000
+shared: {}

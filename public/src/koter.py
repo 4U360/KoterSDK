@@ -3,11 +3,11 @@ import urllib.parse
 from datetime import datetime, timedelta
 import git
 
+
 class Koter:
     __server = None
     __parser_sv = None
     config = {}
-    SDK_URL = "https://github.com/githubtraining/hellogitworld"
     default_algorithm = "HS512"
     algorithms = (
         "HS256", "HS384", "HS512", "ES256",
@@ -17,7 +17,7 @@ class Koter:
     )
     certificate = None
 
-    def __init__(self, server: str, setup: dict,client_certificate: str = None, client_secret_key:str = None):
+    def __init__(self, server: str, setup: dict, client_certificate: str = None, client_secret_key: str = None):
         self.__server = server
         self.config = setup
 
@@ -65,6 +65,3 @@ class Koter:
             handler.raise_for_status()
             return handler
 
-    @classmethod
-    def download_sdk(cls):
-        return git.Repo.clone_from(cls.SDK_URL, to_path="sdk/")

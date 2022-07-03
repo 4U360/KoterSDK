@@ -19,13 +19,30 @@ env = environ.Env(
     PHONENUMBER_DB_FORMAT=(str, "E164"),
     PHONENUMBER_DEFAULT_REGION=(str, "BR"),
     PHONENUMBER_DEFAULT_FORMAT=(str, "E164"),
-    SECRET_KEY=(str, "django-insecure-x&4@fx)3#4m#96&oyuylx*^hyjgf&lxbmvvi7b+b%rxl^$74s)"),
+    SECRET_KEY=(str, "CHANGE-THIS-KEY"),
     LANGUAGE_CODE=(str, "pt-br"),
-    TIME_ZONE=(str,"America/Sao_Paulo")
+    TIME_ZONE=(str, "America/Sao_Paulo"),
+    KOTER_REQUIRE_WORLD_ID=(bool, False),
+    KOTER_WORLD_ID_FIELD=(str, "cpf"),
+    KOTER_EXTERNAL_USER_MODEL=(str, "KoterSDK.ExternalUser"),
+    KOTER_INTEGRATION_ID=(str, None),
+    ALLOWED_HOSTS=(list, ["127.0.0.1", '*.4u360.dev.br', '*.4u360.com.br']),
+    KOTER_DEFAULT_ALGORITHM=(str, 'HS512'),
+    KOTER_SERVER_URL=(str, "koter.4u360.dev.br"),
+    KOTER_CLIENT_CERTIFICATE=(str, None),
+    KOTER_CLIENT_SECRET=(str, None),
+    KOTER_ISSUER=(str, None),
+    KOTER_AUDIENCE=(str, None),
+    KOTER_SECRET_KEY=(str, ""),
+    KOTER_ALGORITHM=(str, None),
+    KOTER_SECRET_HEADER=(str, 'Koter-Webhook-Token'),
+    KOTER_DELETE_OLD_HOOKS=(bool, False),
+    KOTER_DELETE_HOOKS_IN_N_DAYS=(int, 7)
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -36,7 +53,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 # Application definition
 
@@ -48,7 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'phonenumber_field',
-
+    'reversion',
     "KoterSDK"
 ]
 
@@ -136,3 +153,33 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PHONENUMBER_DB_FORMAT = env.str("PHONENUMBER_DB_FORMAT")
 PHONENUMBER_DEFAULT_REGION = env.str("PHONENUMBER_DEFAULT_REGION")
 PHONENUMBER_DEFAULT_FORMAT = env.str("PHONENUMBER_DEFAULT_FORMAT")
+
+# Koter
+
+"""
+Will user access to view API fields be evaluated?
+Attention: Currently, only Brazilian document verification is supported, you can extend the KoterSDK.ExternalUser model
+and create your own validation fields and methods.
+"""
+KOTER_REQUIRE_WORLD_ID = env.bool('KOTER_REQUIRE_WORLD_ID')
+KOTER_WORLD_ID_FIELD = env.str('KOTER_WORLD_ID_FIELD')
+KOTER_EXTERNAL_USER_MODEL = env.str('KOTER_EXTERNAL_USER_MODEL')
+KOTER_INTEGRATION_ID = env.str('KOTER_INTEGRATION_ID')
+KOTER_DEFAULT_ALGORITHM = env.str('KOTER_DEFAULT_ALGORITHM')
+KOTER_SERVER_URL = env.str('KOTER_SERVER_URL')
+KOTER_ISSUER = env.str('KOTER_ISSUER')
+KOTER_AUDIENCE = env.str('KOTER_AUDIENCE')
+KOTER_EXPIRES = {
+    "minutes": 5
+}
+KOTER_SECRET_KEY = env.str('KOTER_SECRET_KEY')
+KOTER_ALGORITHM = env.str('KOTER_ALGORITHM')
+KOTER_SECRET_HEADER = env.str('KOTER_SECRET_HEADER')
+KOTER_DELETE_OLD_HOOKS = env.bool('KOTER_DELETE_OLD_HOOKS')
+KOTER_DELETE_HOOKS_IN_N_DAYS = env.int('KOTER_DELETE_HOOKS_IN_N_DAYS')
+assert KOTER_ISSUER, """Please configure the communication related variables.
+Pending variable: %s""" % "KOTER_ISSUER"
+assert KOTER_AUDIENCE, """Please configure the communication related variables.
+Pending variable: %s""" % "KOTER_AUDIENCE"
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None

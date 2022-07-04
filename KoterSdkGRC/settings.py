@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'ajax_datatable',
     'rest_framework',
     'reversion',
+    'versionfield',
     "KoterSDK"
 ]
 

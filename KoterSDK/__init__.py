@@ -1,8 +1,8 @@
 import requests
+from packaging import version
 from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-
 
 def get_external_user_model():
     """
@@ -22,8 +22,17 @@ def get_external_user_model():
 
 
 def has_new_version() -> bool:
+    version_url = r"https://raw.githubusercontent.com/4U360/KoterSDK/main/version"
     path = settings.BASE_DIR / "version"
     current_version = None
+
     if path.exists():
-        current_version = path.open("r").read().strip()
+        current_version = version.parse(path.open("r").read().strip())
+
+    with requests.get(version_url) as handler:
+        if handler.status_code == 200:
+            main_version = version.parse(handler.text.strip())
+            return current_version < main_version
+
+    return False
 

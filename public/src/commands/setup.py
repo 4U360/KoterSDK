@@ -1,7 +1,19 @@
-import click, yaml, i18n, socket, pathlib, platform, json, logging, uuid, re, psutil, speedtest, git
+import click, yaml, i18n, socket, pathlib, platform, json, logging, uuid, re, psutil, speedtest, shutil, time, os
 from installer import KoterCLI
 from koter import Koter
 from git import RemoteProgress
+
+APPLICATION_ROOT = pathlib.Path().resolve().parents[1]
+
+
+def get_env_rows(integration_id, issuer, audience, algorithm, secret_key):
+    yield ['SECRET_KEY', click.prompt(i18n.t('koter.setup.prompt.django_secret_key'), type=str)]
+    yield ['KOTER_INTEGRATION_ID', integration_id]
+    yield ['KOTER_ISSUER', issuer]
+    yield ['KOTER_AUDIENCE', audience]
+    yield ['KOTER_ALGORITHM', algorithm]
+    yield ['KOTER_SECRET_KEY', secret_key]
+
 
 def getSystemInfo():
     try:
@@ -29,14 +41,15 @@ def getSystemInfo():
         logging.exception(e)
 
 
-
 class ProgressPrinter(RemoteProgress):
     def update(self, op_code, cur_count, max_count=None, message=''):
         print(op_code, cur_count, max_count, cur_count / (max_count or 100.0), message or "NO MESSAGE")
 
+
 DEFAULT_SETUP = {
     "can_share": False
 }
+
 
 @click.command()
 @click.option('--server', default="koter.4u360.dev.br", help=i18n.t('koter.setup.option.server.help'))
@@ -84,7 +97,32 @@ def cli(server, client_certificate: click.Path, client_secret_key: click.Path):
         koter_setup["port"] = port
 
         yaml.dump(koter_setup, handler)
-        koter = Koter(server=server, setup=koter_setup, client_certificate=client_certificate, client_secret_key=client_secret_key)
+        koter = Koter(server=server, setup=koter_setup, client_certificate=client_certificate,
+                      client_secret_key=client_secret_key)
         koter.report()
-        click.echo(click.style(i18n.t('koter.setup.messages.downloading_sdk'), bold=True, fg="yellow"))
-        # Koter.download_sdk()
+        click.echo(click.style(i18n.t('koter.setup.messages.writing_env'), bold=True, fg="yellow"))
+
+        env_file = APPLICATION_ROOT.joinpath('.env')
+        if os.name == 'nt':
+            run_file = APPLICATION_ROOT.joinpath('run.cmd')
+        else:
+            run_file = APPLICATION_ROOT.joinpath('run.sh')
+
+        if env_file.exists():
+            shutil.copyfile(env_file, APPLICATION_ROOT.joinpath(f'.backup-{int(time.time())}.env'))
+
+        with open(env_file, "w+") as handler:
+            for key, value in get_env_rows(integration_id=koter_setup["integration_id"],
+                                           issuer=koter_setup["issuer"],
+                                           audience=koter_setup["audience"],
+                                           algorithm=koter_setup["algorithm"],
+                                           secret_key=koter_setup["secret_key"]):
+                handler.write(f'{key}={value}\n')
+
+        with open(run_file, "w+") as handler:
+            if os.name == 'nt':
+                handler.write(f'python manage.py runserver 0.0.0.0:{koter_setup["port"]}')
+            else:
+                handler.write(f'gunicorn -b 0.0.0.0:{koter_setup["port"]} --workers=2 KoterSdkGRC.wsgi')
+
+

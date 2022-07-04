@@ -37,7 +37,8 @@ env = environ.Env(
     KOTER_ALGORITHM=(str, None),
     KOTER_SECRET_HEADER=(str, 'Koter-Webhook-Token'),
     KOTER_DELETE_OLD_HOOKS=(bool, False),
-    KOTER_DELETE_HOOKS_IN_N_DAYS=(int, 7)
+    KOTER_DELETE_HOOKS_IN_N_DAYS=(int, 7),
+    KOTER_IP_WHITELIST=(list, ["127.0.0.1"])
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -65,6 +66,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'phonenumber_field',
+    'ajax_datatable',
+    'rest_framework',
     'reversion',
     "KoterSDK"
 ]
@@ -177,9 +180,20 @@ KOTER_ALGORITHM = env.str('KOTER_ALGORITHM')
 KOTER_SECRET_HEADER = env.str('KOTER_SECRET_HEADER')
 KOTER_DELETE_OLD_HOOKS = env.bool('KOTER_DELETE_OLD_HOOKS')
 KOTER_DELETE_HOOKS_IN_N_DAYS = env.int('KOTER_DELETE_HOOKS_IN_N_DAYS')
+KOTER_IP_WHITELIST = env.list('KOTER_IP_WHITELIST')
+
 assert KOTER_ISSUER, """Please configure the communication related variables.
 Pending variable: %s""" % "KOTER_ISSUER"
 assert KOTER_AUDIENCE, """Please configure the communication related variables.
 Pending variable: %s""" % "KOTER_AUDIENCE"
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+
+
+
+# Django Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissions'
+    ]
+}

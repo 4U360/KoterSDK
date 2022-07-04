@@ -25,10 +25,13 @@ en:
       secret_key: "Enter your secret key"
       issuer: "Report the SDK issuer"
       algorithm: "Please select the algorithm to be used for communication"
+      django_secret_key: "Enter your application's secret key.
+      (Do not share with anyone, the Koter platform will not have access to this key)"
 
     messages:
       open_port: "Success, port %s is open"
       closed_port: "Port %s is not open, you may have problems connecting to the platform"
       collecting_machine_data: "We are collecting data about your device, please wait"
       downloading_sdk: "We are downloading the SDK, please wait"
+      writing_env: "Writing env"
 

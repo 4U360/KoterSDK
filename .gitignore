@@ -124,6 +124,7 @@ celerybeat.pid
 
 # Environments
 .env
+.backup-*.env
 .venv
 env/
 venv/
@@ -158,3 +159,4 @@ cython_debug/
 /celerybeat-schedule.dat
 /celerybeat-schedule.dir
 /node_modules/
+/run.cmd

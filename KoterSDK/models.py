@@ -2,7 +2,7 @@ from django.db import models
 from django_extensions.db.models import TimeStampedModel, ActivatorModel
 from mirage.fields import EncryptedEmailField, EncryptedCharField, EncryptedURLField, EncryptedTextField, \
     EncryptedJSONField
-from .fields import EncryptedPhonenumberField, EncryptedCPFFIeld
+from .fields import EncryptedPhonenumberField, EncryptedCPFFIeld, EncryptedIPAddressField
 from django.utils.translation import gettext_lazy as _
 
 
@@ -18,8 +18,10 @@ class ExternalUser(TimeStampedModel, ActivatorModel):
 
 
 class AuditLog(TimeStampedModel):
+    ip_address = EncryptedIPAddressField(blank=True,null=True, verbose_name=_("IP Address"))
+    location = models.URLField(blank=True, null=True, verbose_name=_("URL Location"))
     message = EncryptedTextField(verbose_name=_("Message"))
-    external_user = models.ForeignKey(ExternalUser, db_index=True, on_delete=models.CASCADE, blank=True,
+    external_user = models.ForeignKey(ExternalUser, db_index=True, on_delete=models.CASCADE, blank=True,null=True,
                                       verbose_name=_("External User"))
 
 

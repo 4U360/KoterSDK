@@ -25,9 +25,12 @@ pt:
       secret_key: "Informe sua chave secreta"
       issuer: "Informe o issuer da SDK"
       algorithm: "Por favor selecione o algoritmo a ser utilizado para comunicação"
+      django_secret_key: "Insira a chave secreta da sua aplicação.
+      (Não compartilhe com ninguém, a plataforma Koter não terá acesso a esta chave)"
 
     messages:
       open_port: "Sucesso, a porta %s está aberta"
       closed_port: "A porta %s não está aberta, você poderá ter problemas de conexão com a plataforma"
       collecting_machine_data: "Estamos coletando dados sobre o seu dispositivo, por favor aguarde"
       downloading_sdk: "Estamos fazendo download da SDK, por favor aguarde"
+      writing_env: "Escrevendo env"

@@ -49,7 +49,6 @@ class Contact(TimeStampedModel, ActivatorModel):
     last_name = EncryptedCharField(max_length=120, blank=True, verbose_name=_("Last Name"))
     phone = EncryptedPhonenumberField(db_index=True, verbose_name=_("Phone"))
     google_id = EncryptedCharField(max_length=80, blank=True, verbose_name=_("Google ID"))
-    tags = TagField(blank=True, null=True, verbose_name=_("Tags"))
     has_optin = models.BooleanField(default=False, verbose_name=_("Has Optin"))
     optin_origin = EncryptedURLField(verbose_name=_("Source URL"))
     optin_additional_info = EncryptedTextField(verbose_name=_("Additional information about optin"), blank=True)
@@ -59,6 +58,7 @@ class Contact(TimeStampedModel, ActivatorModel):
     mcp_by_phone = EncryptedTextField(blank=True, null=True, verbose_name=_("Marketing Communications Permission"))
     date_mcp = models.DateTimeField(verbose_name=_("Date MCP"))
     pep = models.CharField(max_length=560, verbose_name=_("Publicly Exposed (Brazil)"))
+    tags = TagField(blank=True, verbose_name=_("Tags"))
 
     class Meta:
         verbose_name = _("Contact")

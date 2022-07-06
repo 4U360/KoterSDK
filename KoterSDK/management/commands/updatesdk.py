@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from KoterSDK import has_new_version
 import git
 
+
 class Command(BaseCommand):
     help = 'Update SDK for the last version'
 
@@ -13,4 +14,3 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS('Successfully updated SDK.'))
         else:
             self.stdout.write(self.style.SUCCESS('Your SDK is already at the latest version.'))
-
